@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     stages {
-        stage('Checkout GitHub') {
+        stage('Checkout') {
             steps {
                 git(
                     branch: 'main', 
