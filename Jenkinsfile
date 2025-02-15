@@ -12,8 +12,11 @@ pipeline {
             }
         }
 
-		stage('Build Stage '){
-
-		}		
+        stage('Build Stage') {
+            steps {
+                echo "Build process starts here..."
+                // Add actual build commands here, like Maven, Gradle, or npm
+            }
+        }
     }
 }
