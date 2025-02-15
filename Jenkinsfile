@@ -1,14 +1,19 @@
 pipeline {
-	agent any
+    agent any
 
-	environment {
+    environment {
+        // Define environment variables here if needed
+    }
 
-	}
-	stages {
-		stage('Checkout Github'){
-			steps {
-					git branch: 'main', credentialsId: 'githubID', url: 'https://github.com/azharsayyed1/Jenkins-ArgoCD-GitOps.git'
-			}
-		}		
-	}
+    stages {
+        stage('Checkout GitHub') {
+            steps {
+                git(
+                    branch: 'main', 
+                    credentialsId: 'githubID', 
+                    url: 'https://github.com/azharsayyed1/Jenkins-ArgoCD-GitOps.git'
+                )
+            }
+        }
+    }
 }
