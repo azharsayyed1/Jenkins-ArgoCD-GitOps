@@ -22,7 +22,7 @@ pipeline {
         stage('Build docker file'){
             steps{
                 echo 'Installing docker file'
-                docker.Build("${DOCKER_HUB_REPO"}:latest)
+                docker.Build("${DOCKER_HUB_REPO"}:latest")
             }
         }
 
