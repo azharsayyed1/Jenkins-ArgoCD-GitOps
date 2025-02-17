@@ -1,10 +1,10 @@
 pipeline {
     agent any
     tools {
-        nodejs 'NodeJS'
+        nodejs 'NodeJS' // Ensure NodeJS is configured in Jenkins
     }
-    environment{
-        DOCKER_HUB_REPO= 'azharsayyed1222/jenkins-argocd-gitops' 
+    environment {
+        DOCKER_HUB_REPO = 'azharsayyed1222/jenkins-argocd-gitops'
     }
     stages {
         stage('Checkout') {
@@ -12,19 +12,17 @@ pipeline {
                 git branch: 'main', credentialsId: 'gitops', url: 'https://github.com/azharsayyed1/Jenkins-ArgoCD-GitOps'
             }
         }
-
-        stage('NPM install') {  // Fixed incorrect stage declaration
+        stage('NPM Install') {
             steps {
                 sh 'npm install'
             }
         }
-
-        stage('Build docker file'){
-            steps{
-                echo 'Installing docker file'
-                docker.Build("${DOCKER_HUB_REPO}:latest")
+        stage('Build Docker Image') {
+            steps {
+                script {
+                    docker.build("${DOCKER_HUB_REPO}:latest")
+                }
             }
         }
-
     }
 }
