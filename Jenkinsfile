@@ -24,12 +24,30 @@ pipeline {
                 }
             }
         }
-        stage('Trivy Scan for Image'){
-            steps{
-           		
-                sh 'trivy --severity-level HIGH,CRITICAL --no-progress image --format table -o trivy-scan-report.txt azharsayyed1222/jenkins-argocd-gitops:latest'
-  
+        stage('Trivy Scan for Image') {
+    steps {
+        sh '''
+            IMAGE_NAME="azharsayyed1222/jenkins-argocd-gitops:latest"
+            SEVERITIES="HIGH,CRITICAL"
+
+            TRIVY_JSON=$(trivy image --format json --no-progress "${IMAGE_NAME}")
+
+            FILTERED_VULNS=$(echo "${TRIVY_JSON}" | jq -r ".Results[].Vulnerabilities[] | select(.Severity | in(\"${SEVERITIES//,/}\"))")
+
+            if (!"${FILTERED_VULNS}".isEmpty()) {
+                echo "${FILTERED_VULNS}" | jq -r '@. | [.[] | {VulnerabilityID, Severity, PackageName, Title}] | [.[] | [ .VulnerabilityID, .Severity, .PackageName, .Title ]] | @tsv' > trivy-scan-report.txt
+                echo "Trivy scan report (HIGH, CRITICAL): trivy-scan-report.txt"
+                
+                // Fail the Jenkins build if vulnerabilities are found (recommended)
+                error("High/Critical vulnerabilities found. Check trivy-scan-report.txt")  // Or a more specific message
+
+            } else {
+                echo "No ${SEVERITIES} vulnerabilities found." > trivy-scan-report.txt
+                echo "No High/Critical vulnerabilities found."
             }
-        }
+
+        '''
+    }
+}
     }
 }
