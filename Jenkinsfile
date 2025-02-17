@@ -4,11 +4,7 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                git(
-                    branch: 'main', 
-                    credentialsId: 'githubID', 
-                    url: 'https://github.com/azharsayyed1/Jenkins-ArgoCD-GitOps.git'
-                )
+                    git branch: 'main', credentialsId: 'gitops', url: 'https://github.com/azharsayyed1/Jenkins-ArgoCD-GitOps'
             }
         }
 
