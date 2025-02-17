@@ -27,8 +27,7 @@ pipeline {
         stage('Trivy Scan for Image'){
             steps{
            		
-                sh 'trivy --severity-level HIGH,CRITICAL --no-progress image --format table -o trivy-scan-report.txt azharsayyed1222/jenkins-argocd-gitops:latest
-'
+                sh 'trivy --severity-level HIGH,CRITICAL --no-progress image --format table -o trivy-scan-report.txt azharsayyed1222/jenkins-argocd-gitops:latest'
   
             }
         }
