@@ -3,6 +3,9 @@ pipeline {
     tools {
         nodejs 'NodeJS'
     }
+    environment{
+        DOCKER_HUB_REPO= 'azharsayyed1222/jenkins-argocd-gitops' 
+    }
     stages {
         stage('Checkout') {
             steps {
@@ -15,5 +18,13 @@ pipeline {
                 sh 'npm install'
             }
         }
+
+        stage('Build docker file'){
+            steps{
+                echo 'Installing docker file'
+                docker.Build("${DOCKER_HUB_REPO"}:latest)
+            }
+        }
+
     }
 }
