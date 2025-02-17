@@ -1,6 +1,8 @@
 pipeline {
     agent any
-
+    tools {
+            nodejs 'NodeJS'
+    }
     stages {
         stage('Checkout') {
             steps {
@@ -8,10 +10,11 @@ pipeline {
             }
         }
 
-        stage('Build Stage') {
-            steps {
-                echo "Build process starts here..."
-                // Add actual build commands here, like Maven, Gradle, or npm
+        stage{
+            stage('NPM install'){
+                steps{
+                        sh 'npm install'
+                }
             }
         }
     }
