@@ -43,16 +43,16 @@ pipeline {
     steps {
         sh '''
         echo 'Installing Kubectl & ArgoCD CLI...'
-        
+
         # Install Kubectl
         curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
         chmod +x kubectl
-        echo "your_sudo_password" | sudo -S mv kubectl /usr/local/bin/kubectl
+        sudo mv kubectl /usr/local/bin/kubectl
 
         # Install ArgoCD CLI
         curl -sSL -o argocd https://github.com/argoproj/argo-cd/releases/latest/download/argocd-linux-amd64
         chmod +x argocd
-        echo "your_sudo_password" | sudo -S mv argocd /usr/local/bin/argocd
+        sudo mv argocd /usr/local/bin/argocd
         '''
     }
 }
