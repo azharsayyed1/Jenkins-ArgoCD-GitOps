@@ -18,7 +18,7 @@ pipeline {
                 sh 'npm install'
             }
         }
-        stage('Build Docker Image') {
+        stage('Build Docker ') {
             steps {
                 script {
                     docker.build("${DOCKER_HUB_REPO}:latest")
