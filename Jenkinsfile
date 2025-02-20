@@ -57,6 +57,19 @@ sudo mv argocd /usr/local/bin/argocd
     }
 }
 
+stage('Apply Kubernetes Manifests & Sync App with ArgoCD'){
+			steps {
+				script {
+					kubeconfig(credentialsId: 'kubeconfig', serverUrl: 'https://192.168.49.2:8443') {
+    						sh '''
+						argocd login 54.196.125.205:30890 --username admin --password $(kubectl get secret -n argocd argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d) --insecure
+						argocd app sync argocdjenkins
+						'''
+					}	
+				}
+			}
+		}
+
 
 }
 }
