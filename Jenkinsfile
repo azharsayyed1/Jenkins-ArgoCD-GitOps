@@ -39,11 +39,8 @@ pipeline {
             }
         }
     }
-        stage('Install Kubectl & ArgoCD CLI'){
-    environment {
-        DEBIAN_FRONTEND='noninteractive'
-        SUDO_ASKPASS=/dev/null
-    }
+    
+
 stage('Install Kubectl & ArgoCD CLI'){
     steps {
         sh '''
