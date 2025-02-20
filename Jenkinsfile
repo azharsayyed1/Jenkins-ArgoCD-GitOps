@@ -44,21 +44,21 @@ pipeline {
         DEBIAN_FRONTEND='noninteractive'
         SUDO_ASKPASS=/dev/null
     }
+stage('Install Kubectl & ArgoCD CLI'){
     steps {
         sh '''
         echo 'installing Kubectl & ArgoCD cli...'
         curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
         chmod +x kubectl
         echo "installing kubectl..."
-        export DEBIAN_FRONTEND=noninteractive
-        export SUDO_ASKPASS=/dev/null
-        sudo -S apt-get update
-        sudo -S apt-get install -y kubectl
+        su - ec2-user -c "apt-get update"
+        su - ec2-user -c "apt-get install -y kubectl"
         curl -sSL -o /usr/local/bin/argocd https://github.com/argoproj/argo-cd/releases/latest/download/argocd-linux-amd64
         chmod +x /usr/local/bin/argocd
         '''
     }
 }
+
 
 
 		stage('Apply Kubernetes Manifests & Sync App with ArgoCD'){
