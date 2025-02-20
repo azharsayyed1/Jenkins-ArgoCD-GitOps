@@ -43,10 +43,15 @@ pipeline {
     steps {
         sh '''
         echo 'Installing Kubectl & ArgoCD CLI...'
+# Download ArgoCD CLI
+curl -sSL -o argocd https://github.com/argoproj/argo-cd/releases/latest/download/argocd-linux-amd64
 
-        # Install ArgoCD CLI
-        curl -sSL -o argocd https://github.com/argoproj/argo-cd/releases/latest/download/argocd-linux-amd64
-        chmod +x /usr/local/bin/argocd
+# Make it executable
+chmod +x argocd
+
+# Move to /usr/local/bin (requires sudo)
+sudo mv argocd /usr/local/bin/argocd
+
 
         '''
     }
