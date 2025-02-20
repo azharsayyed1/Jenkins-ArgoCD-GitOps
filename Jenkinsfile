@@ -45,13 +45,12 @@ stage('Install Kubectl & ArgoCD CLI'){
     steps {
         sh '''
         echo 'installing Kubectl & ArgoCD cli...'
-        curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
-        chmod +x kubectl
-        echo "installing kubectl..."
-        sudo -u ubuntu apt-get update
-        sudo -u ubuntu apt-get install -y kubectl
-        curl -sSL -o /usr/local/bin/argocd https://github.com/argoproj/argo-cd/releases/latest/download/argocd-linux-amd64
-        chmod +x /usr/local/bin/argocd
+            sudo apt-get update
+sudo apt install -y curl
+curl -fsSL https://pkgs.k8s.io/core:/stable:/v1.28/deb/Release.key | sudo gpg --dearmor -o /etc/apt/keyrings/kubernetes-apt-keyring.gpg
+echo 'deb [signed-by=/etc/apt/keyrings/kubernetes-apt-keyring.gpg] https://pkgs.k8s.io/core:/stable:/v1.28/deb/ /' | sudo tee /etc/apt/sources.list.d/kubernetes.list
+sudo apt-get update
+sudo apt install -y kubectl
         '''
     }
 }
