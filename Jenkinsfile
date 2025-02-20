@@ -5,6 +5,7 @@ pipeline {
     }
     environment {
         DOCKER_HUB_REPO = 'azharsayyed1222/jenkins-argocd-gitops'
+        DOCKER_HUB_CREDENTIALS_ID = 'gitops-dockerhub'
     }
     stages {
         stage('Checkout') {
@@ -21,7 +22,19 @@ pipeline {
         stage('Build Docker ') {
             steps {
                 script {
-                    docker.build("${DOCKER_HUB_REPO}:latest")
+                    dockerImage=docker.build("${DOCKER_HUB_REPO}:latest")
+                }
+            }
+        }
+
+        stage('pushing image to dockerhub'){
+            steps{
+                script{
+                    echo "Pushing image to docker"
+                    docker.withRegistry('https://registry.hub.docker.com',"${DOCKER_HUB_CREDENTIALS_ID}"){
+                        dockerImage.push('latest')
+                    // }
+
                 }
             }
         }
